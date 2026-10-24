@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { api } from '../api';
 import './Auth.css';
 
 export default function Register() {
@@ -9,6 +11,7 @@ export default function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -17,23 +20,17 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password }),
-      });
+      const data = await api.post('/auth/register', { username, email, password });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || 'Registration failed');
-        return;
+      // Registration succeeded — auto-login and navigate to home feed
+      if (data.user && data.token) {
+        login(data.user, data.token);
+        navigate('/');
+      } else {
+        navigate('/login');
       }
-
-      // Registration succeeded — redirect to login page
-      navigate('/login');
     } catch (err) {
-      setError('Cannot connect to server. Make sure the backend is running.');
+      setError(err.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }

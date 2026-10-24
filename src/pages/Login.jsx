@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { api } from '../api';
 import './Auth.css';
 
 export default function Login() {
@@ -16,32 +17,18 @@ export default function Login() {
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
-    e.preventDefault(); // prevent the browser from reloading the page
+    e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      // Send credentials to our Express backend (Stage 3 will wire this up fully)
-      const response = await fetch('http://localhost:3001/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        // The server returned an error (e.g. wrong password)
-        setError(data.error || 'Login failed');
-        return;
-      }
-
+      const data = await api.post('/auth/login', { email, password });
       // Save user and token in AuthContext (and localStorage)
       login(data.user, data.token);
       // Redirect to home feed
       navigate('/');
     } catch (err) {
-      setError('Cannot connect to server. Make sure the backend is running.');
+      setError(err.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }

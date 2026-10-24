@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import pool, { query } from './db.js';
+import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
 
@@ -49,6 +50,9 @@ app.get('/api/health', async (req, res) => {
     });
   }
 });
+
+// Route handlers
+app.use('/api/auth', authRoutes);
 
 // Central error handler
 app.use((err, req, res, next) => {
