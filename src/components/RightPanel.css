@@ -1,0 +1,67 @@
+/* ========== RIGHT PANEL ========== */
+.right-panel {
+  width: 280px;
+  min-width: 280px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel-card {
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.panel-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e6edf3;
+  margin: 0 0 12px 0;
+}
+
+.community-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.community-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #21262d;
+  cursor: pointer;
+}
+
+.community-item:last-child {
+  border-bottom: none;
+}
+
+.community-name {
+  font-size: 13px;
+  color: #58a6ff;
+  font-weight: 500;
+}
+
+.community-name:hover {
+  text-decoration: underline;
+}
+
+.community-members {
+  font-size: 11px;
+  color: #8b949e;
+}
+
+.panel-text {
+  font-size: 13px;
+  color: #8b949e;
+  line-height: 1.6;
+  margin: 0;
+}
