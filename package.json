@@ -6,17 +6,26 @@
   "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
+    "server": "node server/server.js",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "electron": "electron .",
-    "dev:electron": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\""
+    "dev:full": "concurrently \"npm run server\" \"npm run dev\"",
+    "dev:electron": "concurrently \"npm run server\" \"npm run dev\" \"wait-on http://localhost:5173 && electron .\""
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
     "electron-is-dev": "^2.0.0",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "react-router-dom": "^6.30.6"
+    "react-router-dom": "^6.30.6",
+    "socket.io": "^4.8.4"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
