@@ -5,6 +5,8 @@ import pool, { query } from './db.js';
 import authRoutes from './routes/authRoutes.js';
 import communityRoutes from './routes/communityRoutes.js';
 import postRoutes from './routes/postRoutes.js';
+import voteRoutes from './routes/voteRoutes.js';
+import commentRoutes from './routes/commentRoutes.js';
 
 dotenv.config();
 
@@ -57,6 +59,8 @@ app.get('/api/health', async (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/communities', communityRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api/votes', voteRoutes);
+app.use('/api/comments', commentRoutes);
 
 // Central error handler
 app.use((err, req, res, next) => {
