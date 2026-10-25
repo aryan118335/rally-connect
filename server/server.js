@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import pool, { query } from './db.js';
 import authRoutes from './routes/authRoutes.js';
+import communityRoutes from './routes/communityRoutes.js';
 
 dotenv.config();
 
@@ -53,6 +54,7 @@ app.get('/api/health', async (req, res) => {
 
 // Route handlers
 app.use('/api/auth', authRoutes);
+app.use('/api/communities', communityRoutes);
 
 // Central error handler
 app.use((err, req, res, next) => {
