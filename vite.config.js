@@ -11,5 +11,11 @@ export default defineConfig({
     // Always use port 5173 so Electron knows exactly where to connect
     port: 5173,
     strictPort: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5001',
+        changeOrigin: true,
+      },
+    },
   },
 })

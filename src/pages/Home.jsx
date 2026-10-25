@@ -49,8 +49,11 @@ export default function Home() {
   }
 
   useEffect(() => {
-    loadPosts(activeTab);
     loadCommunities();
+  }, []);
+
+  useEffect(() => {
+    loadPosts(activeTab);
   }, [activeTab]);
 
   // Handle post creation

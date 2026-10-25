@@ -1,30 +1,32 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 // Create the context object — this is what other components will import
 const AuthContext = createContext(null);
 
 // AuthProvider wraps the entire app and makes auth state available everywhere
 export function AuthProvider({ children }) {
-  // user holds the currently logged-in user object, or null if no one is logged in
-  const [user, setUser] = useState(null);
-  // token holds the JWT string, or null
-  const [token, setToken] = useState(null);
-
-  // On app load, check if the user was previously logged in (stored in localStorage)
-  useEffect(() => {
-    const savedUser = localStorage.getItem('rally_user');
-    const savedToken = localStorage.getItem('rally_token');
-    if (savedUser && savedToken) {
-      setUser(JSON.parse(savedUser));
-      setToken(savedToken);
+  // Initialize state synchronously from localStorage so there's zero render flash
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem('rally_user');
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch {
+      return null;
     }
-  }, []);
+  });
+
+  const [token, setToken] = useState(() => {
+    try {
+      return localStorage.getItem('rally_token') || null;
+    } catch {
+      return null;
+    }
+  });
 
   // Called when the user successfully logs in
   function login(userData, jwtToken) {
     setUser(userData);
     setToken(jwtToken);
-    // Save to localStorage so the session survives a page refresh
     localStorage.setItem('rally_user', JSON.stringify(userData));
     localStorage.setItem('rally_token', jwtToken);
   }
@@ -44,8 +46,7 @@ export function AuthProvider({ children }) {
   );
 }
 
-// Custom hook — instead of writing useContext(AuthContext) everywhere,
-// components just call useAuth()
+// Custom hook for components
 export function useAuth() {
   return useContext(AuthContext);
 }
